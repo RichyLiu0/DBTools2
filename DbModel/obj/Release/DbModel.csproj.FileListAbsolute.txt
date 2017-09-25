@@ -1,0 +1,17 @@
+E:\Work\SimpleTools\DbModel\bin\Release\DbModel.dll
+E:\Work\SimpleTools\DbModel\bin\Release\DbModel.pdb
+E:\Work\SimpleTools\DbModel\obj\Release\DbModel.dll
+E:\Work\SimpleTools\DbModel\obj\Release\DbModel.pdb
+C:\Users\Liuwe\Desktop\SimpleTools\DbModel\bin\Release\DbModel.dll
+C:\Users\Liuwe\Desktop\SimpleTools\DbModel\bin\Release\DbModel.pdb
+C:\Users\Liuwe\Desktop\SimpleTools\DbModel\obj\Release\DbModel.dll
+C:\Users\Liuwe\Desktop\SimpleTools\DbModel\obj\Release\DbModel.pdb
+D:\MyWork\Local\OtherProject\SimpleTools\DbModel\bin\Release\DbModel.dll
+D:\MyWork\Local\OtherProject\SimpleTools\DbModel\bin\Release\DbModel.pdb
+D:\MyWork\Local\OtherProject\SimpleTools\DbModel\obj\Release\DbModel.dll
+D:\MyWork\Local\OtherProject\SimpleTools\DbModel\obj\Release\DbModel.pdb
+F:\temp\20170704\SimpleTools\SimpleTools\DbModel\bin\Release\DbModel.dll
+F:\temp\20170704\SimpleTools\SimpleTools\DbModel\bin\Release\DbModel.pdb
+F:\temp\20170704\SimpleTools\SimpleTools\DbModel\obj\Release\DbModel.csprojResolveAssemblyReference.cache
+F:\temp\20170704\SimpleTools\SimpleTools\DbModel\obj\Release\DbModel.dll
+F:\temp\20170704\SimpleTools\SimpleTools\DbModel\obj\Release\DbModel.pdb

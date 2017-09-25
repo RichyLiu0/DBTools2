@@ -1,0 +1,14 @@
+﻿@{
+    var DBName = "DBName".ValueOfForm();
+    List<GeneralModel.DBTableInfo> tbList = ViewBag.DBList as List<GeneralModel.DBTableInfo>; 
+}
+<table>
+
+    @foreach (var tb in tbList)
+    {
+        <tr>
+            <td style="min-width: 200px"><a target="Center" href="TableInfoEdit?DBName=@(DBName)&TableName=@tb.TableName">@(tb.TableName)</a></td>
+            <td><span style="color: #0b4503; font-size: 12px">@(tb.TableDisplayName)</span></td>
+        </tr>
+    }
+</table>

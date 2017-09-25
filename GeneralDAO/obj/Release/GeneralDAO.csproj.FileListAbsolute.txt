@@ -1,0 +1,9 @@
+C:\Work\修练项目demo\DBTools\GeneralDAO\bin\Release\GeneralDAO.dll
+C:\Work\修练项目demo\DBTools\GeneralDAO\bin\Release\GeneralDAO.pdb
+C:\Work\修练项目demo\DBTools\GeneralDAO\bin\Release\GeneralModel.dll
+C:\Work\修练项目demo\DBTools\GeneralDAO\bin\Release\Ucsmy.Framework.dll
+C:\Work\修练项目demo\DBTools\GeneralDAO\bin\Release\LitJson.dll
+C:\Work\修练项目demo\DBTools\GeneralDAO\bin\Release\GeneralModel.pdb
+C:\Work\修练项目demo\DBTools\GeneralDAO\obj\Release\GeneralDAO.csprojResolveAssemblyReference.cache
+C:\Work\修练项目demo\DBTools\GeneralDAO\obj\Release\GeneralDAO.dll
+C:\Work\修练项目demo\DBTools\GeneralDAO\obj\Release\GeneralDAO.pdb

@@ -1,0 +1,182 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ListCfg</title>
+    <script src="/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="/Scripts/layer/layer.js" type="text/javascript"></script>
+    <script src="/Scripts/common.js" type="text/javascript"></script>
+    <script src="/Scripts/JSFormat/jquery-Formatextend.js"></script>
+    <link href="~/Content/themes/base/common.css" rel="stylesheet" />
+    
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#drpSourceType").trigger("onchange");
+        });
+
+        function OnSourceTypeChange(o) {
+            if ($(o).val() == "1") {
+                $(".ReferTableInfo").hide();
+                $(".TableInfo").show();
+                $(".SqlInfo").hide();
+            }
+            else {
+                $(".TableInfo").hide();
+                $(".SqlInfo").show();
+                $(".ReferTableInfo").show();
+            }
+        }
+
+        function LoadColsInfo() {
+            var data = {};
+            data.DBName = $("#drpDBName").val();
+            data.SourceType = parseInt($("#drpSourceType").val());
+            if (data.SourceType == 1) {
+                data.TableName = $("#txtTable").val();
+                data.ReferTables = $("#txtTable").val();
+            }
+            else {
+                data.Sql = $("#txtSql").val();
+                data.ReferTables = $("#txtReferTables").val();
+            }
+
+            if (data.SourceType == 1 && (data.TableName == "undifined" || data.TableName == "")) {
+                alert("表名不能为空");
+                return;
+            }
+            else if (data.SourceType == 2 && (data.Sql == "undifined" || data.Sql == "")) {
+                alert("SQL不能为空");
+                return;
+            }
+
+
+            $("#divCols").load("./GetCols", { DBName: data.DBName, SourceType: data.SourceType, Sql: data.Sql, TableName: data.TableName, ReferTables: data.ReferTables }, function (arg) { });
+
+        }
+
+
+        function LoadCfg() {
+            var data = {};
+            data.Name = $("#txtName").val();
+            data.DisplayName = $("#txtDisplayName").val();
+            data.SourceType = parseInt($("#drpSourceType").val());
+            if (data.SourceType == 1) {
+                data.TableName = $("#txtTable").val();
+            }
+            else {
+                data.Sql = $("#txtSql").val();
+            }
+            data.Cols = [];
+            $(".DataRow").each(function () {
+                var row = {};
+                row.Name = $(this).find(".Name").html();
+                row.DataType = $(this).find(".DataType").html();
+                row.DisplayName = $(this).find(".DisplayName").val();
+                row.IsNullable = $(this).find(".IsNullable").attr("checked") == "checked" ? true : false;
+                row.IsCondition = $(this).find(".IsCondition").attr("checked") == "checked" ? true : false;
+                row.IsList = $(this).find(".IsList").attr("checked") == "checked" ? true : false;
+                data.Cols.push(row);
+
+            });
+            $("#divCfg").load("./GetCfg", { ActionType: 1, Data: JSON.stringify(data) }, function (data) {
+                ShowGenderalWindow();
+            });
+        }
+
+        function ShowGenderalWindow() {
+
+            layer.open({
+                type: 1,
+                //skin: 'layui-layer-lan',
+                title: "代码生成",
+                fix: true,
+                shadeClose: false,
+                maxmin: true,
+                area: ['820px', '700px'],
+                content: $("#divCfg"),
+                end: null
+            });
+        }
+
+    </script>
+</head>
+@{
+  
+    var dbList = this.ViewBag.DBList as List<string>;
+}
+<body>
+    <form id="form1" method="post" action="./IndexPost">
+        <div id="divSource">
+            <table class="tableDetail">
+                <tr>
+                    <td class="title" style="width: 100px;">DB: </td>
+                    <td>
+                        <select id="drpDBName" name="DBName">
+                            @foreach (string dbItem in dbList)
+                            {
+                                @Html.Raw("<option value=\"{0}\">{0}</option>".FormatWith(@dbItem));
+                            }
+                        </select>
+                    </td>
+                    <td class="title">数据源类型</td>
+                    <td>
+                        <select style="width: 120px;" id="drpSourceType" name="SourceType" onchange="OnSourceTypeChange(this)">
+                            <option value="1">表</option>
+                            <option value="2">SQl</option>
+                        </select>
+
+                    </td>
+                </tr>
+                <tr class="TableInfo">
+                    <td class="title">表名：</td>
+                    <td>
+                        <input type="text" runat="server" id="txtTable" name="Table" />
+                    </td>
+                </tr>
+                <tr class="SqlInfo">
+                    <td class="title">SQL表达式：</td>
+                    <td colspan="3">
+                        <textarea id="txtSql" name="Sql" style="height: 200px; width: 380px"></textarea>
+                    </td>
+                </tr>
+                <tr class="ReferTableInfo">
+                    <td class="title">字段备注参考表：</td>
+                    <td>
+                        <input type="text" id="txtReferTables" name="ReferTables" runat="server" value="" title="逗号分隔" /></td>
+                </tr>
+                <tr>
+                    <td class="title">名称：</td>
+                    <td>
+                        <input type="text" id="txtName" runat="server" name="Name" value="" /></td>
+                    <td class="title">显示名称：</td>
+                    <td>
+                        <input type="text" id="txtDisplayName" runat="server" name="DisplayName" value="" />
+
+
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="4" style="text-align: right;">
+                        <input type="button" value="获取字段信息" onclick="LoadColsInfo()" />
+                        &nbsp; &nbsp;
+                        <input id="btnGeneral" type="button" value="代码生成" onclick="    LoadCfg()" /></td>
+                </tr>
+            </table>
+
+        </div>
+        <div id="divCols"></div>
+        <div id="divCfg" style="display: none"></div>
+
+
+    </form>
+</body>
+</html>

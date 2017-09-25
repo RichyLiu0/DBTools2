@@ -1,0 +1,57 @@
+﻿@{
+    ListCfgVM vm = this.ViewBag.VM as ListCfgVM;
+    var dbList = this.ViewBag.DBList as List<string>;
+}
+
+<script  type="text/ecmascript">
+
+    function CheckAll(o, type) {
+        var isCheck = $(o).attr("checked");
+        $("." + type + "").each(function () {
+            if (isCheck) {
+                $(this).attr("checked", isCheck);
+            }
+            else {
+                $(this).removeAttr("checked");
+            }
+        });
+    }
+</script>
+
+<table  class="tableDetail">
+    <tr style="color: #0094ff; text-align: center;">
+        <td>字段名</td>
+        <td style="text-align: center; width: 150px;">类型</td>
+        <td style="text-align: center; width: 150px;">允许空 
+                        <input type="checkbox" onclick="CheckAll(this, 'IsNullable')" /></td>
+        <td>显示名称</td>
+        <td style="text-align: center; width: 150px;">条件 
+                        <input type="checkbox" onclick="CheckAll(this, 'IsCondition')" />
+        </td>
+        <td style="text-align: center; width: 150px;">列
+                         <input type="checkbox" onclick="CheckAll(this, 'IsList')" />
+        </td>
+    </tr>
+    @foreach (var p in vm.Cols)
+    {      
+                   
+        <tr class="DataRow">
+            <td class="Name">@p.Name</td>
+            <td class="DataType"  style="text-align:center; color:blue;">@p.DataType</td>
+            <td style="text-align: center;">
+                <input class="IsNullable" value="@p.Name" type="checkbox" @Html.Raw(p.IsNullable ? "checked=\"checked\"" : "")  />
+            </td>
+            <td>
+                <input type="text" class="DisplayName" value="@p.DisplayName" />
+            </td>
+
+            <td style="width: 80px; text-align: center">
+                <input class="IsCondition" value="@p.Name" type="checkbox" /></td>
+
+            <td style="width: 80px; text-align: center">
+                <input class="IsList" value="@p.Name" type="checkbox" /></td>
+        </tr>
+               
+    }
+
+</table>

@@ -1,0 +1,6 @@
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Debug\GeneralModel.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Debug\GeneralModel.pdb
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Debug\Ucsmy.Framework.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Debug\LitJson.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\obj\Debug\GeneralModel.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\obj\Debug\GeneralModel.pdb

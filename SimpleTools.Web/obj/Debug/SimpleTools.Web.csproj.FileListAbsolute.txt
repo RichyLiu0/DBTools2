@@ -1,0 +1,15 @@
+E:\Work\SimpleTools\SimpleTools.Web\bin\SimpleTools.Web.dll
+E:\Work\SimpleTools\SimpleTools.Web\bin\SimpleTools.Web.pdb
+E:\Work\SimpleTools\SimpleTools.Web\bin\DbModel.dll
+E:\Work\SimpleTools\SimpleTools.Web\bin\DbModel.pdb
+E:\Work\SimpleTools\SimpleTools.Web\obj\Debug\SimpleTools.Web.csprojResolveAssemblyReference.cache
+E:\Work\SimpleTools\SimpleTools.Web\obj\Debug\SimpleTools.Web.dll
+E:\Work\SimpleTools\SimpleTools.Web\obj\Debug\SimpleTools.Web.pdb
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\bin\SimpleTools.Web.dll.config
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\bin\SimpleTools.Web.dll
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\bin\SimpleTools.Web.pdb
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\bin\DbModel.dll
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\bin\DbModel.pdb
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\obj\Debug\SimpleTools.Web.csprojResolveAssemblyReference.cache
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\obj\Debug\SimpleTools.Web.dll
+E:\Work\SourceCode\SimpleTools\SimpleTools.Web\obj\Debug\SimpleTools.Web.pdb

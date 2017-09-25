@@ -1,0 +1,457 @@
+﻿@using GeneralService
+@Html.Raw("<%@ Page Language=\"C#\" AutoEventWireup=\"true\" Inherits=\"ST.Manager.PageBase\" %>")
+@{var cfg = ViewBag.cfg as GeneralModel.ListGeneralCfg;}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@cfg.DisplayName</title>
+    @Html.Raw("<ucs:commonresourse id=\"CommonResourse1\" runat=\"server\" />")
+    <script type="text/javascript">
+        $(function () {
+            InitSearch();
+            InitListOrderBy();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="inner_2">
+        <div class="rightContent">
+            <h3 class="bt">@cfg.DisplayName
+            </h3>
+            <!--搜索-->
+            <div class="search">
+                <!--搜索-->
+                <table>
+                   
+                            @for (int i = 0; i < cfg.QueryCols.Count(); i++)
+                            {
+                                var m = cfg.QueryCols[i];
+                                if (i % 3 == 0)
+                                {
+                                 <text><tr></text>
+                                }
+                                  <text>
+                            <td class="std">@m.DisplayName</td>
+                                <td class="ttd">
+                                     </text>
+                                if (m.QueryType == 5)
+                                {
+                                         <text>
+                                <input search="Min@(m.Name)" type="text" class="searchInput" rtip="最小金额" maxlength="13"style="width: 100px;" />至
+                                <input search="Max@(m.Name)" type="text" class="searchInput" rtip="最大金额" maxlength="13"style="width: 100px;" />
+                                     </text>
+                                }
+                                else if (m.QueryType == 6 || m.QueryType == 8)
+                                {
+                                         <text>
+                                     <input search="@(m.Name)" type="text" class="Wdate" onclick="WdatePicker()" style="width: 88px"/>
+                                         </text>
+                                }
+                                else if (m.QueryType == 7 || m.QueryType == 9)
+                                {
+                                         <text>
+                                    <input search="Min@(m.Name)" type="text" class="Wdate" onclick="WdatePicker()"style="width: 88px"/>
+                                    至
+                                <input search="Max@(m.Name)" type="text" class="Wdate" onclick="WdatePicker()" style="width: 88px"/>
+                                     </text>
+                                }
+                                else
+                                {
+                                         <text>
+                                <input search="@(m.Name)" type="text" style="width: 195px;" class="searchInput"  rtip="@m.DisplayName" />
+                              
+                                 </text>
+                                }
+                                
+                                @(Html.Raw("</td>"))
+                               
+                                
+                                if ((i + 1) % 3 == 0)
+                                {
+                          <text>@Html.Raw("</tr>")</text>
+                                }
+                            }
+                          
+                     
+                               
+                           
+                            <td>
+                                <span>
+                                    <input type="hidden" id="IsDoQuery" search="IsDoQuery" />
+                                    <input type="button" id="btnSearch" class="searchBtn" value="查询" onclick="DoSearch(1)" />
+
+                                    <input type="button" value="导 出" onclick="if (confirm('批量导出有数量限制，超出8000条部分请通过筛选条件分批指出，是否继续?')) { DoSearch(11); }" class="ButtonCss" />
+                                </span>
+                            </td>
+                    </tr>
+                </table>
+            </div>
+            <!--搜索结束-->
+           
+            <!--功能按钮-->
+            <div class="btnBox">
+                <div class="cz_btn">
+                    <span class="search">
+                        <input type="checkbox" search="IsShowSum" id="ckbShowSum" onclick="DoSearch(3, this)"
+                            href="/ChannelAssetManager/OrderHoldList.aspx?page=<%=pager.PageIndex%>" />
+                        <label for="ckbShowSum">
+                            显示总计</label>
+                    </span>
+                </div>
+            </div>
+            <!--功能按钮结束-->
+            <div class="content" style="overflow-y: hidden">
+                <%if (vm.IsDoQuery == false)
+                  { %>
+                <div style="color: Red; text-align: center; font-size: 18px; font-weight: bold">
+                    请筛选条件进行查询
+                </div>
+                <%}
+                  else
+                  { %>
+                <table border="0" cellpadding="0" cellspacing="0" class="tableBD" @if (cfg.FreezeColIndex > 0)
+                                                                                  { <text>fixtable="column:{@(cfg.FreezeColIndex)}"</text> }>
+                    <tbody>
+                        <tr class="btTR" style="text-align: center">
+                            <th width="40">编号</th>
+                            @foreach (var m in cfg.ListCols)
+                            {
+                            <th @Html.Raw(m.IsSort ? "listorderby=\"" + m.Name + "\"" : "")>@m.DisplayName</th>
+                            }
+                                       <th align="center">操作</th>
+                        </tr>
+                        <%for(int i=0;i<vm.List.Count();i++){  
+                                var item=vm.List[i];
+                        %>
+                            
+                        <tr>
+                            <td align="center">
+                                <%=(i + 1) + (pager.PageIndex - 1) * pager.PageSize%>
+                            </td>
+                            @foreach (var m in cfg.ListCols)
+                            {
+                             <text>
+                                <td align="@GenerlPrintHelper.ListColAlignPrint(m)">
+                                    <%= @Html.Raw(GenerlPrintHelper.ListColPrint(m))%>
+                                </td>
+                              </text>
+                            }
+                            
+                                <td>
+                                    <a class="aico" href="javascript:void(0)" onclick="ShowWin('?id=id,null,null,'明细详情')">
+                                        <span>查看详情</span>
+                                    </a>
+                                </td>
+
+                        </tr>
+                        <%} %>
+                             
+                            
+                        <tr>
+                            <td style="color: red">
+                                <b>合计</b>
+                            </td>
+                            @foreach (var m in cfg.ListCols)
+                            {
+                                <text>
+                                 <td align="right">
+                                     @(Html.Raw(m.IsSum ? "<%=vm.Sum_Page.Sum{0}.ToString(\"N2\")%>".FormatWith(m.Name) : ""))
+                                 </td>
+                                </text>
+                            }
+                                <td></td>
+                        </tr>
+                        <%if (vm.IsSum)
+                          {%>
+
+                        <tr>
+                            <td style="color: red">
+                                <b>总计</b>
+                            </td>
+                           @foreach (var m in cfg.ListCols)
+                           {
+                                  <td align="right"> 
+                                  @(Html.Raw(m.IsSum ? " <%=vm.Sum.Sum{0}.ToString(\"N2\")%>".FormatWith(m.Name) : ""))
+                                 </td>
+                           }
+                                  <td></td>
+                        </tr>
+                        <%} %>
+                    </tbody>
+                </table>
+                <%} %>
+            </div>
+            <div class="pagination">
+                <ucs:urlpager id="pager" runat="server" pagesize="10" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+    
+<script runat="server">    
+       
+   
+VModel vm = new VModel();
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (vm.IsDoQuery)
+        {
+            if (vm.IsExport)
+                DoExport();
+            else
+                BindData();
+        }
+    }
+    
+        
+     void Filter(UcsSqlCmd cmd)
+    {
+        
+        @foreach (var m in cfg.QueryCols)
+        {
+            /*
+            @m.DisplayName
+            */
+            if (m.QueryType == 0)
+            {
+            <text>
+            var @(m.Name) = "@(m.Name)".ValueOfQuery("").TryInt(0).Value;
+        if (@m.Name != 0)
+        {
+            cmd.F(" AND @m.Name = @@@m.Name").P("@(m.Name)", @(m.Name));
+        }  
+        </text>
+            }
+            else if (m.QueryType == 2)
+            {
+    
+            <text>
+            var @(m.Name) = "@(m.Name)".ValueOfQuery("");
+        if (@(m.Name) != "")
+        {
+           cmd.F(" AND @(m.Name) =@@@(m.Name)").P("@(m.Name)",@(m.Name));
+        }   
+     </text>
+            }
+            else if (m.QueryType == 3)
+            {
+            <text>
+            var @(m.Name) = "@(m.Name)".ValueOfQuery("");
+        if (@(m.Name) != "")
+        { 
+           cmd.F(" AND @(m.Name) like @@@(m.Name)").P("@(m.Name)",@(m.Name));
+        }
+     </text>
+            }
+            else if (m.QueryType == 4)
+            {
+            <text>
+            var @(m.Name) = "@(m.Name)".ValueOfQuery().TryDecimal().GetValueOrDefault(0);
+        if ("@(m.Name)".ValueOfQuery() != "")
+        {
+            cmd.F(" AND @(m.Name) =@@@(m.Name)").P("@(m.Name)",@(m.Name));
+        }  
+     </text>
+            }
+            else if (m.QueryType == 5)
+            {
+            <text>
+            var  min@(m.Name)= "min@(m.Name)".ValueOfQuery().TryDecimal().GetValueOrDefault(0);
+        if (min@(m.Name) != 0)
+        {
+             cmd.F(" AND @(m.Name) >=@@min@(m.Name)").P("min@(m.Name)",min@(m.Name));
+        }
+        var max@(m.Name) = "max@(m.Name)".ValueOfQuery().TryDecimal().GetValueOrDefault(0);
+        if (max@(m.Name) != 0)
+        {
+        cmd.F(" AND @(m.Name) @(Html.Raw("<"))=@@max@(m.Name)").P("max@(m.Name)",max@(m.Name));
+        }
+        </text>
+            }
+
+            else if (m.QueryType == 6 || m.QueryType == 8)
+            {
+            <text>
+            var @(m.Name)= "@(m.Name)".ValueOfQuery();
+        if (@(m.Name) != "")
+        {
+            var d=@(m.Name).TryDateTime().Value;
+        }    
+     </text>
+            }
+            else if (m.QueryType == 7 || m.QueryType == 9)
+            {
+            <text>
+            var @(m.Name)Range = DateRange.GetValidatedRange("Min@(m.Name)".ValueOfQuery(""),"Max@(m.Name)".ValueOfQuery(""));
+        if (@(m.Name)Range != null)
+        {
+               cmd.F(" and @(m.Name) between @@@(m.Name)Begin and @@@(m.Name)End ")
+                .P("@(m.Name)Begin", @(m.Name)Range.Begin.Value)
+                .P("@(m.Name)End", @(m.Name)Range.End.Value);
+        }
+      </text>
+            }
+
+
+        }
+    }
+protected void BindData()
+    {
+        var response = GetPageResult(pager.PageIndex - 1, pager.PageSize);
+        vm.List = response.ResultList;
+        vm.ListTotalCount = response.TotalCount;
+        pager.RecordCount = response.TotalCount;//pager赋值
+
+        if (response.ResultList.HasAny())
+        {
+            foreach (var item in response.ResultList)
+            {
+                @foreach (var m in cfg.ListCols)
+                {
+                    if (m.IsSum)
+                    {
+                    <text>vm.Sum_Page.Sum@(m.Name)+=item.@(m.Name); </text>
+                    }
+                }
+}
+        }
+    }
+   
+    protected PagerResponse<VModel.iListItem> GetPageResult(int pageIndex, int pageSize)
+    {
+        var orderByStr = "ORDER BY CreateTime DESC";
+        var qOrderBy = "orderby".ValueOfQuery();
+        var qDirect = "direct".ValueOfQuery();
+        if (qOrderBy.NotNullOrWhiteSpace())
+        {
+            orderByStr = "ORDER BY {0} {1}".FormatWith(qOrderBy, qDirect);
+        }
+ 
+        var sql = @@"@(cfg.DataSource.SourceType == 1 ? "select * from {0} ".FormatWith(cfg.DataSource.TableName) : cfg.DataSource.SQL)";
+        var cmd = new UcsSqlCmd()
+        {
+            TSql = @@"select *, ROW_NUMBER() OVER ( {0} ) Rn from 
+                    ({1})as t  
+                     where 1=1 ".FormatWith(orderByStr, sql),
+            TParam = new UcsParameters()
+        }.P("PageIndex", pageIndex).P("PageSize", pageSize);
+
+        Filter(cmd);
+
+        var pagingList = CTBConn.QueryService.ST.DSqlQuery<VModel.iListItem>(
+            cmd.TSql.WrapperToPaging(), cmd.TParam.ToDynamicParameters());
+
+        var response = pagingList.ToPagerResponse();
+        if (response.TotalCount > 0)
+        {
+            if (vm.IsSum)
+            {
+                var tsql_Sum = @@"
+                                ;with SumCTE as(
+                                --------------------
+                                {0}
+                                --------------------
+                                )
+                                SELECT
+        @foreach (var m in cfg.ListCols)
+        {
+            if (m.IsSum)
+            {
+                               <text>ISNULL(SUM(@m.Name), 0) Sum@(m.Name) ,</text> 
+            }
+        }
+                                0 as Total0
+                                from SumCTE
+                                ".FormatWith(cmd.TSql);
+
+                vm.Sum = CTBConn.QueryService.ST.DSqlSingleQuery<VModel.iSum>(tsql_Sum, cmd.TParam.ToDynamicParameters());
+            }
+        }
+        return response;
+    }
+     
+#region 导出
+    protected void DoExport()
+    {
+        var projectData = GetPageResult(0, 8000);
+        AppLibrary.WriteExcel.XlsDocument doc = new AppLibrary.WriteExcel.XlsDocument();
+        if (Context.Request.UserAgent != null)
+        {
+            string browser = Context.Request.UserAgent.ToUpper();
+            string fileName = "@cfg.DisplayName";
+            if (!browser.Contains("FIREFOX") &&
+                !browser.Contains("SAFARI"))
+            {
+                fileName = HttpUtility.UrlEncode(fileName);
+            }
+
+            doc.FileName = fileName + DateTime.Now.Date.ToString("yyyyMMdd") + ".xls";
+        }
+        string SheetNameInvest = "@cfg.DisplayName";
+        AppLibrary.WriteExcel.Worksheet sheetInvest = doc.Workbook.Worksheets.Add(SheetNameInvest);
+        AppLibrary.WriteExcel.Cells cellsInvest = sheetInvest.Cells;
+        
+        cellsInvest.Add(1, 1, "编号");
+    var colIndex=2;
+   @for (int i = 2; i < cfg.ListCols.Count(); i++)
+   {
+    <text>
+     cellsInvest.Add(1, colIndex, "@cfg.ListCols[i].DisplayName");
+     colIndex++;
+    </text>
+   }
+         int t = 1;
+        foreach (var item in projectData.ResultList)
+        {
+            t++;
+            cellsInvest.Add(t, 1, t - 1);
+            colIndex=2;
+         @for (int i = 2; i < cfg.ListCols.Count(); i++)
+         {
+             
+       <text>cellsInvest.Add(t, colIndex, @Html.Raw(GeneralService.GenerlPrintHelper.ExportColPrint(cfg.ListCols[i])));
+             colIndex++;
+    </text>
+         }
+        doc.Send();
+        Response.Flush();
+        Response.End();
+        }
+    }
+#endregion
+    
+#region 内部类
+public class VModel
+ {
+            public bool IsDoQuery { get { return "IsDoQuery".ValueOfQuery() == "1"; } }
+            public bool IsExport { get { return "IsExport".ValueOfQuery() == "1"; } }
+            public bool IsSum { get { return "IsShowSum".ValueOfQuery("false").TryBoolean().Value; } }
+            public IList<iListItem> List = new List<iListItem>();
+            public int ListTotalCount = 0;
+            public iSum Sum = new iSum();
+            public iSum Sum_Page = new iSum();
+
+            
+            public class iListItem
+            {
+                public Int64 Rn { get; set; }
+                public Int64 TotalCount { get; set; }
+
+ @foreach (var m in cfg.DataSource.DBCols)
+ {
+         <text> public @GeneralService.GenerlPrintHelper.GetCSharpType(m.DataType) @(m.ColumnName) { get; set; }</text>
+ }
+}
+        public class iSum
+        {
+            @foreach (var m in cfg.ListCols.Where(t => t.IsSum))
+            {
+                <text>public decimal Sum@(m.Name) { get; set; }</text>  
+            }
+}
+    }
+    #endregion
+     
+</script>

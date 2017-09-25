@@ -1,0 +1,12 @@
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\GeneralService.dll
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\GeneralService.pdb
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\GeneralDAO.dll
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\GeneralModel.dll
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\Newtonsoft.Json.dll
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\Ucsmy.Framework.dll
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\LitJson.dll
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\GeneralDAO.pdb
+C:\Work\修练项目demo\DBTools\GeneralService\bin\Debug\GeneralModel.pdb
+C:\Work\修练项目demo\DBTools\GeneralService\obj\Debug\GeneralService.csprojResolveAssemblyReference.cache
+C:\Work\修练项目demo\DBTools\GeneralService\obj\Debug\GeneralService.dll
+C:\Work\修练项目demo\DBTools\GeneralService\obj\Debug\GeneralService.pdb

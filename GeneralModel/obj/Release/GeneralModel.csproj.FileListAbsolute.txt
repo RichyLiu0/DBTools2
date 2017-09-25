@@ -1,0 +1,7 @@
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Release\GeneralModel.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Release\GeneralModel.pdb
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Release\Ucsmy.Framework.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\bin\Release\LitJson.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\obj\Release\GeneralModel.csprojResolveAssemblyReference.cache
+C:\Work\修练项目demo\DBTools\GeneralModel\obj\Release\GeneralModel.dll
+C:\Work\修练项目demo\DBTools\GeneralModel\obj\Release\GeneralModel.pdb

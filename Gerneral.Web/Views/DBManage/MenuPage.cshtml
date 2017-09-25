@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+
+@{
+  
+    var dbList = this.ViewBag.DBList as List<string>;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CTB工具</title>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <script src="/Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="/Scripts/layer/layer.js" type="text/javascript"></script>
+    <script src="/Scripts/common.js" type="text/javascript"></script>
+    <script src="/Scripts/JSFormat/jquery-Formatextend.js"></script>
+    <link href="~/Content/themes/base/common.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+
+        function LoadTableMenu() {
+
+            var dbName = $("#drpDBName").val();
+            var tbName = $("#txtTabbleName").val();
+            $("#divTableMenu").load("./GetTableList", { DBName: dbName, TableName: tbName }, function (data) { });
+        }
+    </script>
+</head>
+<body style="padding: 20px 20px;">
+    <form id="form1" runat="server">
+        <div>
+            <ul>
+                <li><span>库名</span>
+                    <select id="drpDBName" name="DBName">
+                        @foreach (string dbItem in dbList)
+                        {
+                            @Html.Raw("<option value=\"{0}\">{0}</option>".FormatWith(@dbItem));
+                        }
+                    </select>
+                </li>
+                <li><span>表名</span>
+                    <input type="text" id="txtTabbleName" />
+                    <input type="button" id="btnSearceh" value="搜索" onclick="LoadTableMenu()" />
+                </li>
+            </ul>
+            <div style="margin-left: 20px;" id="divTableMenu">
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
+

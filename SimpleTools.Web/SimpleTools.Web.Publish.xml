@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="F:\Release\dbtool.ctbdev.com" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="bin/DbModel.dll" publishTime="08/31/2016 16:19:25" />
+    <file relUrl="SqlExporePage.aspx" publishTime="08/31/2016 10:56:55" />
+    <file relUrl="bin/DbModel.pdb" publishTime="08/31/2016 16:19:25" />
+    <file relUrl="bin/SimpleTools.Web.pdb" publishTime="08/31/2016 16:19:25" />
+    <file relUrl="Index.aspx" publishTime="08/31/2016 10:56:55" />
+    <file relUrl="DownLoad.ashx" publishTime="08/31/2016 10:56:55" />
+    <file relUrl="MenuPage.aspx" publishTime="08/31/2016 16:18:04" />
+    <file relUrl="Web.config" publishTime="08/31/2016 16:22:16" />
+    <file relUrl="bin/SimpleTools.Web.dll" publishTime="08/31/2016 16:19:25" />
+    <file relUrl="EditPage.aspx" publishTime="08/31/2016 10:56:55" />
+  </publishProfile>
+</publishData>
