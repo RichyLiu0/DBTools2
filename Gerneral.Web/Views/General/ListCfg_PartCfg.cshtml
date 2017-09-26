@@ -1,7 +1,14 @@
 ﻿<div class="GeneralPage">
-    <textarea id="txtCfg" style="width: 100%; height: 300px">@ViewBag.Cfg</textarea>
-    <input type="button" value="格式化" onclick="$('#txtCfg').format({ method: 'json' })" />
-    <input type="button" value="压缩" onclick="$('#txtCfg').format({ method: 'jsonmin' })" />
+
+    <div id="CfgCode">
+        <textarea id="txtCfg" style="width: 100%; height: 300px" style="display: none;" >@ViewBag.Cfg</textarea>
+    </div>
+    <div class="CfgVisual" style="display: none;">
+    </div>
+    <input type="button" id="btnCfgVisual" value="可视化编辑" onclick="CfgVisualEdit()"  style="display: none;" />
+    <input type="button" id="btnCfgCode" value="代码编辑" onclick="CfgCodeEdit()" style="display: none;" />
+    <input type="button" id="btnCfgFormat" value="格式化"  onclick="$('#txtCfg').format({ method: 'json' })" />
+    <input type="button" id="btnCfgZip" value="压缩" onclick="$('#txtCfg').format({ method: 'jsonmin' })" />
     <input type="button" value="页面生成" onclick="GeneralHtmlCode()" />
     &nbsp;&nbsp;代码模板：
             <select id="drpGeneralTemplate" runat="server" name="drpGeneralTemplate">
@@ -15,12 +22,60 @@
 
 <script>
 
+    var cfgModel = 0;
     $('#txtCfg').format({ method: 'json' });
+    SetCfgModel(0);
+   
 
+
+    function SetCfgModel(m) {
+        if (m == 0) {
+            $("#btnCfgVisual").show();
+            $("#CfgCode").show();
+            $("#btnCfgFormat").show();
+            $("#btnCfgZip").show();
+
+            $("#btnCfgCode").hide();
+            $(".CfgVisual").hide();
+            
+        }
+        else {
+            $("#btnCfgVisual").hide();
+            $("#CfgCode").hide();
+            $("#btnCfgFormat").hide();
+            $("#btnCfgZip").hide();
+
+            $("#btnCfgCode").show();
+            $(".CfgVisual").show();
+        }
+        cfgModel = m;
+    }
+
+    /////
+
+    function CfgVisualEdit() {
+        $(".CfgVisual").load("./CfgVisual", { Data: $("#txtCfg").val() }, function (msg) {
+            SetCfgModel(1)
+        });
+    }
+
+   
 
     function GeneralHtmlCode() {
-        $.post("./GetGeneralCode", { cfg: $("#txtCfg").val(), template: $("#drpGeneralTemplate").val() }, function (data) {
+
+        var cfg = '';
+        if (cfgModel == 0) {
+            cfg = $("#txtCfg").val();
+        }
+        else {
+            FillCfgFromVisual();
+            cfg =JSON.stringify( visualCfgJosn);
+        }
+
+        $.post("./GetGeneralCode", { cfg:cfg , template: $("#drpGeneralTemplate").val() }, function (data) {
             $("#txtGeneral").val(data);
         });
     }
+
+     
 </script>

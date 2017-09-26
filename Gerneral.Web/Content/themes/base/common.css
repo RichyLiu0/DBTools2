@@ -91,10 +91,16 @@ textarea.error
     text-align: right;
     background: #FAFAFA;
 }
+    .tableDetail thead th {
+       text-align: center;
+     background: #FAFAFA;
+       min-width:60px;
+    }
 
 .title{
     text-align: right;
     background: #FAFAFA;
+  
 }
 
 .tableDetail td, .tableDetail th{

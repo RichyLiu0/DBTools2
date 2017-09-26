@@ -188,7 +188,7 @@ WHERE   b.name ='{0}'", Table);
                             WHERE   ISNULL(e.class_desc, 'OBJECT_OR_COLUMN') = 'OBJECT_OR_COLUMN'
                                     AND ISNULL(e.name, 'MS_Description') = 'MS_Description'
 		                            )
-		                            SELECT * FROM t WHERE t.TableName='{0}' AND t.ColumnType<>'timestamp'  ".FormatWith(Table);
+		                            SELECT * FROM t WHERE t.TableName='{0}'  ".FormatWith(Table);
             var dt = new DbContext(DB).Query(sql);
             foreach (DataRow row in dt.Rows)
             {

@@ -116,6 +116,23 @@ namespace Gerneral.Web.Controllers
 
 
         [HttpPost]
+        public ActionResult CfgVisual()
+        {
+            try
+            {
+                var cfg = "Data".ValueOfForm().ToObject<GeneralModel.ListGeneralCfg>();
+                ViewBag.Cfg = cfg;
+                return View("~/Views/General/ListCfg_PartCfgVisual.cshtml");
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.GetInnerMessage());
+                return View("~/Views/Shared/ErrorHander.cshtml");
+            }
+        }
+
+
+        [HttpPost]
         public ActionResult GetGeneralCode()
         {
             try
@@ -135,7 +152,7 @@ namespace Gerneral.Web.Controllers
         #region 私有方法
         private ListGeneralCfg CreateListGeneralCfg(ListCfgVM cfgVM)
         {
-           
+
             ListGeneralCfg cfg = new ListGeneralCfg();
 
             cfg.Name = cfgVM.Name;
