@@ -2,6 +2,8 @@
     
     GeneralModel.DBTableInfo tb = ViewBag.TableInfo as GeneralModel.DBTableInfo;
     List<GeneralModel.DBIndexInfo> idxs = ViewBag.Indexs as List<GeneralModel.DBIndexInfo>;
+
+    var Server = "Server".ValueOfQuery();
     var dbName = "DBName".ValueOfQuery();
     var tbName = "TableName".ValueOfQuery();
     
@@ -29,6 +31,7 @@
         function SaveColRemark() {
 
             var data = {};
+            data.Server = "@Server";
             data.TableName = "@tb.TableName";
             data.DBName = "@dbName";
             data.TableDisplayName = $("#txtTableDisplayName").val();

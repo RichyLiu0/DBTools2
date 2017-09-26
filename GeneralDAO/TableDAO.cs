@@ -14,7 +14,7 @@ namespace GeneralDAO
     public class TableDAO
     {
 
-        public List<DBTableInfo> GetTableList(string DB)
+        public List<DBTableInfo> GetTableList(string Server,string DB)
         {
             List<DBTableInfo> list = new List<DBTableInfo>();
             string sql = @"  WITH  t AS ( SELECT   t.name AS TableName ,
@@ -27,7 +27,7 @@ namespace GeneralDAO
                                      )
                             SELECT  *
                             FROM    t  order by TableName asc ";
-            var dt = new DbContext(DB).Query(sql);
+            var dt = new DbContext(Server,DB).Query(sql);
             if (dt != null && dt.Rows != null)
             {
                 foreach (DataRow row in dt.Rows)
@@ -45,11 +45,11 @@ namespace GeneralDAO
         }
 
 
-        public DBTableInfo GetTable(string DB, string Table)
+        public DBTableInfo GetTable(string Server, string DB, string Table)
         {
             DBTableInfo tb = new DBTableInfo();
-            FillTableName(tb, DB, Table);
-            FillCols(tb, DB, Table);
+            FillTableName(tb, Server, DB, Table);
+            FillCols(tb, Server, DB, Table);
             return tb;
         }
 
@@ -84,7 +84,7 @@ namespace GeneralDAO
 
 
 
-        public List<DBIndexInfo> GetIndexs(string DB, string Table)
+        public List<DBIndexInfo> GetIndexs(string Server, string DB, string Table)
         {
             var Indexs = new List<DBIndexInfo>();
             var sql = string.Format(@"SELECT  a.name AS IndexName ,a.type_desc AS IndexDes ,a.is_primary_key  AS IsPrimaryKey,a.Is_Unique as IsUnique,
@@ -101,7 +101,7 @@ FROM    sys.indexes a
         INNER JOIN sys.tables b ON a.object_id = b.object_id
 WHERE   b.name ='{0}'", Table);
 
-            var dt = new DbContext(DB).Query(sql);
+            var dt = new DbContext(Server, DB).Query(sql);
             foreach (DataRow row in dt.Rows)
             {
                 var indexInfo = new DBIndexInfo();
@@ -117,30 +117,30 @@ WHERE   b.name ='{0}'", Table);
         }
 
 
-        public bool SaveTableRemark(string db, string tb, string remark)
+        public bool SaveTableRemark(string Server,string db, string tb, string remark)
         {
 
             string strSql = "EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';".FormatWith(tb);
 
             strSql += "EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'{1}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';".FormatWith(tb, remark);
-            DbContext dbContext = new DbContext(db);
+            DbContext dbContext = new DbContext(Server, db);
             dbContext.ExecuteNonQuery(strSql);
             return true;
         }
 
-        public bool SaveColRemark(string db, string tb, string col, string remark)
+        public bool SaveColRemark(string Server, string db, string tb, string col, string remark)
         {
 
             string strSql = "EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}', @level2type=N'COLUMN',@level2name=N'{1}';".FormatWith(tb, col, remark);
 
             strSql += "EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'{2}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}', @level2type=N'COLUMN',@level2name=N'{1}';".FormatWith(tb, col, remark);
-            DbContext dbContext = new DbContext(db);
+            DbContext dbContext = new DbContext(Server,db);
             dbContext.ExecuteNonQuery(strSql);
             return true;
         }
 
         #region 私有方法
-        private void FillTableName(DBTableInfo TableInfo, string DB, string Table)
+        private void FillTableName(DBTableInfo TableInfo, string Server,string DB, string Table)
         {
             string sql = @"  WITH  t AS ( SELECT   t.name AS TableName ,
                                                 e.value AS DesText
@@ -152,7 +152,7 @@ WHERE   b.name ='{0}'", Table);
                                      )
                             SELECT  *
                             FROM    t WHERE t.TableName='{0}'".FormatWith(Table);
-            var dt = new DbContext(DB).Query(sql);
+            var dt = new DbContext(Server, DB).Query(sql);
             if (dt != null && dt.Rows != null)
             {
                 var row = dt.Rows[0];
@@ -162,7 +162,7 @@ WHERE   b.name ='{0}'", Table);
             }
         }
 
-        private void FillCols(DBTableInfo TableInfo, string DB, string Table)
+        private void FillCols(DBTableInfo TableInfo, string Server, string DB, string Table)
         {
             string sql = @"WITH t AS (
                             SELECT  t.name AS TableName ,
@@ -189,7 +189,7 @@ WHERE   b.name ='{0}'", Table);
                                     AND ISNULL(e.name, 'MS_Description') = 'MS_Description'
 		                            )
 		                            SELECT * FROM t WHERE t.TableName='{0}'  ".FormatWith(Table);
-            var dt = new DbContext(DB).Query(sql);
+            var dt = new DbContext(Server,DB).Query(sql);
             foreach (DataRow row in dt.Rows)
             {
                 var col = new DBColInfo();

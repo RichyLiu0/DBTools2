@@ -15,9 +15,9 @@ namespace GeneralDAO
         DbContext dbContext;
 
 
-        public DBDAO()
+        public DBDAO(string Server, string DBName)
         {
-            dbContext = new DbContext();
+            dbContext = new DbContext(Server,DBName);
         }
         public List<string> GetDBName()
         {

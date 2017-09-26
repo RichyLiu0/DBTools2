@@ -10,15 +10,15 @@ namespace GeneralService
     public class SqlPrintHelper
     {
 
-        public static string PrintTableSql(string db, string tb)
+        public static string PrintTableSql(string server, string db, string tb)
         {
             // @ToTable(this.TableInfo) @ToIndex(this.TableInfo)@ToAnnotation(this.TableInfo) @ToInsert(this.TableInfo) @ToSelect(this.TableInfo)
 
             string strReturn = "";
 
-            DBTableInfo tbInfo = new GeneralDAO.TableDAO().GetTable(db, tb);
-            strReturn += ToTable(db, tbInfo);
-            strReturn += ToIndex(db, tb);
+            DBTableInfo tbInfo = new GeneralDAO.TableDAO().GetTable(server, db, tb);
+            strReturn += ToTable(server,db, tbInfo);
+            strReturn += ToIndex(server,db, tb);
             strReturn += ToAnnotation(tbInfo);
             strReturn += ToInsert(tbInfo);
             strReturn += ToSelect(tbInfo);
@@ -28,7 +28,7 @@ namespace GeneralService
         }
 
 
-        private static string ToTable(string db, DBTableInfo tb)
+        private static string ToTable(string server, string db, DBTableInfo tb)
         {
             StringBuilder cBuilder = new StringBuilder();
             cBuilder.AppendLine("--【表结构】------------------------------------------");
@@ -36,7 +36,7 @@ namespace GeneralService
 
             var idx = 0;
             var tableDao = new GeneralDAO.TableDAO();
-            var Indexs = tableDao.GetIndexs(db, tb.TableName);
+            var Indexs = tableDao.GetIndexs(server,db, tb.TableName);
             var primaryColumn = Indexs.FirstOrDefault(t => t.IsPrimaryKey);
             foreach (DBColInfo c in tb.Cols)
             {
@@ -61,12 +61,12 @@ namespace GeneralService
             return cBuilder.ToString();
         }
 
-        private static string ToIndex(string db, string tb)
+        private static string ToIndex(string server, string db, string tb)
         {
             StringBuilder cBuilder = new StringBuilder();
 
             var tableDao = new GeneralDAO.TableDAO();
-            var Indexs = tableDao.GetIndexs(db, tb);
+            var Indexs = tableDao.GetIndexs(server,db, tb);
             cBuilder.AppendLine("--【索引】------------------------------------------");
             foreach (DBIndexInfo idx in Indexs)
             {

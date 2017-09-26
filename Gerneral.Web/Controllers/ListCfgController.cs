@@ -15,13 +15,13 @@ namespace Gerneral.Web.Controllers
         //
         // GET: /ListCfg/
         [HttpGet]
-        public ActionResult Index(string DBName)
+        public ActionResult Index(string Server, string DBName)
         {
 
             try
             {
                 //填充dbList
-                DBDAO dbDao = new DBDAO();
+                DBDAO dbDao = new DBDAO(Server, DBName);
                 List<string> dbList = dbDao.GetDBName();
                 this.ViewBag.DBList = dbList;
 
@@ -42,6 +42,7 @@ namespace Gerneral.Web.Controllers
         {
             try
             {
+                var Server = Request.Form["server"].TryString("DefaultServer");
                 string DBName = Request.Form["DBName"].TryString();
                 int SourceType = Request.Form["SourceType"].TryInt(1).Value;
                 string Sql = Request.Form["Sql"].TryString();
@@ -60,12 +61,12 @@ namespace Gerneral.Web.Controllers
 
                 if (SourceType == 1)
                 {
-                    dbCols = GeneralService.GeneralCfgService.GetColsByTable(DBName, TableName);
+                    dbCols = GeneralService.GeneralCfgService.GetColsByTable(Server,DBName, TableName);
 
                 }
                 else
                 {
-                    dbCols = GeneralService.GeneralCfgService.GetColsBySql(DBName, Sql, ReferTables);
+                    dbCols = GeneralService.GeneralCfgService.GetColsBySql(Server,DBName, Sql, ReferTables);
                 }
                 if (dbCols != null && dbCols.Count() > 0)
                 {

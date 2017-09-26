@@ -37,6 +37,7 @@
 
         function LoadColsInfo() {
             var data = {};
+            data.Server = "@("Server".ValueOfQuery())";
             data.DBName = $("#drpDBName").val();
             data.SourceType = parseInt($("#drpSourceType").val());
             if (data.SourceType == 1) {
@@ -56,7 +57,7 @@
                 alert("SQL不能为空");
                 return;
             }
-            $("#divCols").load("./GetCols", { DBName: data.DBName, SourceType: data.SourceType, Sql: data.Sql, TableName: data.TableName, ReferTables: data.ReferTables }, function (arg) { });
+            $("#divCols").load("./GetCols", {Server: data.Server , DBName: data.DBName, SourceType: data.SourceType, Sql: data.Sql, TableName: data.TableName, ReferTables: data.ReferTables }, function (arg) { });
 
         }
 

@@ -12,19 +12,22 @@ namespace GeneralDAO
     {
         private string _ConnString;
 
-        public DbContext()
-        {
-            string strDb = "";
+        /// <summary>
+        /// 默认
+        /// </summary>
+        //public DbContext()
+        //{
+        //    string strDb = "";
            
-                strDb = "Initial Catalog=" + "ST";
-                _ConnString = System.Configuration.ConfigurationManager.ConnectionStrings["Developer"].ConnectionString + strDb;
-        }
-        public DbContext(string DbName = "")
+        //        strDb = "Initial Catalog=" + "ST";
+        //        _ConnString = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultDB"].ConnectionString + strDb;
+        //}
+        public DbContext(string Server,string DbName)
         {
             string strDb = "";
             if (!string.IsNullOrWhiteSpace(DbName))
                 strDb = "Initial Catalog=" + DbName;
-            _ConnString = System.Configuration.ConfigurationManager.ConnectionStrings["Developer"].ConnectionString + strDb;
+            _ConnString = System.Configuration.ConfigurationManager.ConnectionStrings[Server].ConnectionString + strDb;
         }
 
         public DataTable Query(string sql)

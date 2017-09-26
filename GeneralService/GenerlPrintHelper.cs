@@ -84,14 +84,13 @@ namespace GeneralService
             }
         }
 
-        public static string ClassPrint(string db, string tb)
+        public static string ClassPrint(string server, string db, string tb)
         {
-            var ti = new GeneralDAO.TableDAO().GetTable(db, tb);
-
+            var ti = new GeneralDAO.TableDAO().GetTable(server,db, tb);
             var strReturn = "";
             strReturn += ToClass(ti);
-            strReturn += ToClass(ti);
-            strReturn += ToClass(ti);
+            strReturn += ToNewClass(ti);
+            strReturn += ToNewClass2(ti);
             return strReturn;
         }
 

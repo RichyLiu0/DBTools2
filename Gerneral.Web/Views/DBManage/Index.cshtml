@@ -10,7 +10,7 @@
     <title></title>
 </head>
 <frameset cols="35%,65%">
-  <frame src="./MenuPage" />
+  <frame src="./MenuPage?Server=@("Server".ValueOfQuery().TryString("DefaultServer"))" />
   <frame  id="Center" name="Center" />
 </frameset>
 </html>

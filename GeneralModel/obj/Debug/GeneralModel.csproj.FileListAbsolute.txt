@@ -10,4 +10,3 @@ C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralModel\bin\Debug\Ucsmy.Framework.
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralModel\bin\Debug\LitJson.dll
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralModel\obj\Debug\GeneralModel.dll
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralModel\obj\Debug\GeneralModel.pdb
-C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralModel\obj\Debug\GeneralModel.csprojResolveAssemblyReference.cache

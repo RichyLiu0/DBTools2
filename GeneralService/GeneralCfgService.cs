@@ -17,10 +17,10 @@ namespace GeneralService
     {
 
 
-        public static List<DBColInfo> GetColsBySql(string DB, string Sql, string ReferTables)
+        public static List<DBColInfo> GetColsBySql(string Server,string DB, string Sql, string ReferTables)
         {
             string strSql = string.Format(";with t as ({0}) select top 1 * from t", Sql);
-            var dt = new DbContext(DB).Query(strSql);
+            var dt = new DbContext(Server,DB).Query(strSql);
             if (dt == null && dt.Columns == null && dt.Columns.Count <= 0) return null;
             var list = new List<DBColInfo>();
             foreach (DataColumn col in dt.Columns)
@@ -47,7 +47,7 @@ namespace GeneralService
 
                 foreach (var tb in arrRef)
                 {
-                    var tempCols = GetColsByTable(DB, tb);
+                    var tempCols = GetColsByTable(Server,DB, tb);
                     if (tempCols != null)
                         ReferCols.AddRange(tempCols);
                 }
@@ -65,11 +65,11 @@ namespace GeneralService
             return list;
         }
 
-        public static List<DBColInfo> GetColsByTable(string DB, string Table)
+        public static List<DBColInfo> GetColsByTable(string Server, string DB, string Table)
         {
             var tableDao = new TableDAO();
             var list = new List<DBColInfo>();
-            return tableDao.GetTable(DB, Table).Cols;
+            return tableDao.GetTable(Server ,DB, Table).Cols;
         }
 
         #region 内部方法
