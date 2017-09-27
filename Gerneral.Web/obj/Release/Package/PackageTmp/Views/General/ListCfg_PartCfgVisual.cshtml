@@ -1,0 +1,214 @@
+﻿@{
+    var cfg = ViewBag.Cfg as GeneralModel.ListGeneralCfg;
+}
+
+
+<script type="text/javascript">
+    @Html.Raw("var visualCfgJosn={0}; ".FormatWith(cfg.ToJson()))
+
+    $("#CfgVisualTabs").tabs();
+
+    function FillCfgFromVisual() {
+        visualCfgJosn.Name = $(".Visual_Cfg_Name").val();
+        visualCfgJosn.DisplayName = $(".Visual_Cfg_DisplayName").val();
+
+
+        visualCfgJosn.QueryCols = [];
+        $(".Visual_Cfg_Query").each(function () {
+            var queryItem = {};
+            queryItem.Name = $(this).attr("Query_Name");
+            queryItem.DisplayName = $(this).attr("Query_DisplayName");
+            queryItem.RowIdx = parseInt($(this).find(".Visual_QueryCol_RowIndex").val());
+            queryItem.QueryType = parseInt($(this).find(".Visual_QueryCol_QueryType").val());
+            visualCfgJosn.QueryCols.push(queryItem);
+        });
+
+        visualCfgJosn.ListCols = [];
+        $(".Visual_Cfg_Col").each(function () {
+            var colItem = {};
+            colItem.Name = $(this).attr("Col_Name");
+            colItem.DisplayName = $(this).attr("Col_DisplayName");
+            colItem.ColumnIdx = parseInt($(this).find(".Visual_ListCol_ColIndex").val());
+            colItem.ListType = parseInt($(this).find(".Visual_ListCol_ColType").val());
+            colItem.IsSort = $(this).find(".Visual_ListCol_IsSort").attr("checked") == "checked" ? true : false;
+            colItem.IsSum = $(this).find(".Visual_ListCol_IsSum").attr("checked") == "checked" ? true : false;
+            visualCfgJosn.ListCols.push(colItem);
+
+        });
+
+
+    }
+
+    function CfgCodeEdit() {
+        FillCfgFromVisual();
+        $("#txtCfg").val(JSON.stringify(visualCfgJosn));
+        $('#txtCfg').format({ method: 'json' });
+        SetCfgModel(0);
+    }
+
+
+    function DeleteItem(o) {
+
+        if (confirm("确认删除?"))
+            $(o).parent().parent().remove();
+    }
+
+
+</script>
+
+<div id="CfgVisualTabs">
+    <ul>
+        <li><a href="#tabs-1">条件</a></li>
+        <li><a href="#tabs-2">列</a></li>
+        <li><a href="#tabs-3">数据源</a></li>
+    </ul>
+
+
+    <div id="tabs-1">
+
+        <table class="tableDetail">
+            <thead>
+                <tr style="text-align: center">
+                    <th>字段名</th>
+                    <th>名称</th>
+                    <th>排列序号</th>
+                    <th>类型</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in cfg.QueryCols)
+            {
+                <tr class="Visual_Cfg_Query"  Query_Name="@item.Name" Query_DisplayName="@item.DisplayName">
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.DisplayName
+                    </td>
+                    <td style="color: blue">
+                        <input type="text"  class="Visual_QueryCol_RowIndex" value="@item.RowIdx" />
+                    </td>
+                    <td style="text-align: center">
+
+                        <select class="Visual_QueryCol_QueryType">
+                            @Html.Raw("<option value=\"0\"  {0}>Int</option>".FormatWith(item.QueryType == 0 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"1\"  {0}>IntRange</option>".FormatWith(item.QueryType == 1 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"2\"  {0}>String</option>".FormatWith(item.QueryType == 2 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"3\"  {0}>StringLike</option>".FormatWith(item.QueryType == 3 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"4\"  {0}>Decimal</option>".FormatWith(item.QueryType == 4 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"5\"  {0}>DecimalRange</option>".FormatWith(item.QueryType == 5 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"6\"  {0}>Date</option>".FormatWith(item.QueryType == 6 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"7\"  {0}>DateRange</option>".FormatWith(item.QueryType == 7 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"8\"  {0}>DateTime</option>".FormatWith(item.QueryType == 8 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"9\"  {0}>DateTimeRange</option>".FormatWith(item.QueryType == 9 ? "selected=\"selected\"" : ""))
+                        </select>
+
+                    </td>
+                    <td style="text-align: center">
+                        <a href="#" onclick="DeleteItem(this)"><span style="color: red;">X</span> </a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div id="tabs-2">
+        <table class="tableDetail">
+            <thead>
+                <tr style="text-align: center">
+                    <th>字段名</th>
+                    <th>名称</th>
+                    <th>排列序号</th>
+                    <th>类型</th>
+                    <th>排序</th>
+                    <th>统计</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in cfg.ListCols)
+            {
+                <tr class="Visual_Cfg_Col"  Col_Name="@item.Name" Col_DisplayName="@item.DisplayName" >
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.DisplayName
+                    </td>
+                    <td style="color: blue">
+                        <input type="text"  class="Visual_ListCol_ColIndex" value="@item.ColumnIdx" />
+                    </td>
+                    <td style="color: blue; text-align: center;">
+                        <select class="Visual_ListCol_ColType">
+                            @Html.Raw("<option value=\"0\"  {0}>Int</option>".FormatWith(item.ListType == 0 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"1\"  {0}>String</option>".FormatWith(item.ListType == 1 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"2\"  {0}>Decimal</option>".FormatWith(item.ListType == 2 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"3\"  {0}>Date</option>".FormatWith(item.ListType == 3 ? "selected=\"selected\"" : ""))
+                            @Html.Raw("<option value=\"4\"  {0}>DateTime</option>".FormatWith(item.ListType == 4 ? "selected=\"selected\"" : ""))
+                        </select>
+
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" class="Visual_ListCol_IsSort" @Html.Raw(item.IsSort ? "checked=\"checked\"" : "") />
+                    </td>
+                    <td style="text-align: center">
+                        <input type="checkbox" class="Visual_ListCol_IsSum"  @Html.Raw(item.IsSum ? "checked=\"checked\"" : "") />
+                    </td>
+
+                    <td style="text-align: center">
+
+                        <a href="#" onclick="DeleteItem(this)"><span style="color: red;">X</span> </a>
+
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+    <div id="tabs-3">
+        <table class="tableDetail">
+            <tr>
+                <td>名称</td>
+                <td>
+                    <input type="text" class="Visual_Cfg_Name"  value="@cfg.Name"/></td>
+            </tr>
+            <tr>
+                <td>显示名称</td>
+                <td>
+                    <input type="text" class="Visual_Cfg_DisplayName"  value="@cfg.DisplayName" /></td>
+            </tr>
+        </table>
+        字段
+
+        <table class="tableDetail">
+            <thead>
+                <tr>
+                    <th>字段名</th>
+                    <th>名称</th>
+                    <th>是否可空</th>
+                    <th>类型</th>
+                </tr>
+            </thead>
+            @foreach (var item in cfg.DataSource.DBCols)
+            {
+                <tr class="Visual_Cfg_DB">
+                    <td>
+                        @item.ColumnName
+                    </td>
+                    <td>
+                        @item.DisplayName
+                    </td>
+                    <td style="color: blue">
+                        @item.IsNullable
+                    </td>
+                    <td style="color: blue">
+                        @item.DataType
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+</div>
+
+

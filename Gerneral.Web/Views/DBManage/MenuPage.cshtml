@@ -1,9 +1,8 @@
-﻿@{
-    Layout = null;
-}
+﻿ 
 
 @{
   
+    var Server="Server".ValueOfQuery();
     var dbList = this.ViewBag.DBList as List<string>;
 }
 <!DOCTYPE html>
@@ -28,13 +27,28 @@
             var tbName = $("#txtTabbleName").val();
             $("#divTableMenu").load("./GetTableList", { Server: server, DBName: dbName, TableName: tbName }, function (data) { });
         }
+
+        function ServerChange(o)
+        {
+            window.location.href = "./MenuPage?Server=" + $(o).val();
+        }
     </script>
 </head>
 <body style="padding: 20px 20px;">
     <form id="form1" runat="server">
         <div>
             <ul>
-                <li><span>库名</span>
+                <li>
+                    服务器:
+                    <select  onchange="ServerChange(this)">
+                       <option value="DefaultServer" @(Server=="DefaultServer"?"selected=\"selected\"":"")  >研发库</option>
+                          <option value="LocalServer" @(Server=="LocalServer"?"selected=\"selected\"":"") >本地库</option>
+                    </select>
+
+
+                </li>
+
+                <li> &nbsp;&nbsp;&nbsp;<span>库名:</span>
                     <select id="drpDBName" name="DBName">
                         @foreach (string dbItem in dbList)
                         {
@@ -42,7 +56,7 @@
                         }
                     </select>
                 </li>
-                <li><span>表名</span>
+                <li>&nbsp;&nbsp;&nbsp;<span>表名:</span>
                     <input type="text" id="txtTabbleName" />
                     <input type="button" id="btnSearceh" value="搜索" onclick="LoadTableMenu()" />
                 </li>

@@ -394,7 +394,7 @@ protected void BindData()
         AppLibrary.WriteExcel.Cells cellsInvest = sheetInvest.Cells;
         
         cellsInvest.Add(1, 1, "编号");
-    var colIndex=1;
+    var colIndex=2;
    @for (int i = 2; i < cfg.ListCols.Count(); i++)
    {
     <text>
@@ -407,7 +407,7 @@ protected void BindData()
         {
             t++;
             cellsInvest.Add(t, 1, t - 1);
-            colIndex=1;
+            colIndex=2;
          @for (int i = 2; i < cfg.ListCols.Count(); i++)
          {
              

@@ -14,8 +14,8 @@
     <script src="/Scripts/common.js" type="text/javascript"></script>
     <script src="/Scripts/JSFormat/jquery-Formatextend.js"></script>
     <link href="~/Content/themes/base/common.css" rel="stylesheet" />
-
-
+    <script src="~/Scripts/jquery-ui/jquery-ui.min.js"></script>
+    <link href="~/Scripts/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -37,6 +37,7 @@
 
         function LoadColsInfo() {
             var data = {};
+            data.Server = "@("Server".ValueOfQuery())";
             data.DBName = $("#drpDBName").val();
             data.SourceType = parseInt($("#drpSourceType").val());
             if (data.SourceType == 1) {
@@ -56,9 +57,7 @@
                 alert("SQL不能为空");
                 return;
             }
-
-
-            $("#divCols").load("./GetCols", { DBName: data.DBName, SourceType: data.SourceType, Sql: data.Sql, TableName: data.TableName, ReferTables: data.ReferTables }, function (arg) { });
+            $("#divCols").load("./GetCols", {Server: data.Server , DBName: data.DBName, SourceType: data.SourceType, Sql: data.Sql, TableName: data.TableName, ReferTables: data.ReferTables }, function (arg) { });
 
         }
 
@@ -105,6 +104,10 @@
                 end: null
             });
         }
+
+
+     
+
 
     </script>
 </head>

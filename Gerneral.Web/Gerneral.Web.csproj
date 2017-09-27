@@ -313,7 +313,6 @@
     <Content Include="Views\General\Template\ListBySql.cshtml" />
     <Content Include="Views\General\Template\ListByTable.cshtml" />
     <Content Include="Views\General\Template\ListTest.cshtml" />
-    <Content Include="Views\Main.cshtml" />
     <Content Include="Views\DBManage\Index.cshtml" />
     <None Include="Views\DBManage\MenuPage.cshtml" />
     <Content Include="Views\DBManage\MenuPage_PartTableList.cshtml" />
