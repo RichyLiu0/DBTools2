@@ -22,3 +22,15 @@ C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralService\bin\Debug\GeneralModel.p
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralService\obj\Debug\GeneralService.csprojResolveAssemblyReference.cache
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralService\obj\Debug\GeneralService.dll
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralService\obj\Debug\GeneralService.pdb
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\GeneralService.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\GeneralService.pdb
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\GeneralDAO.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\GeneralModel.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\Newtonsoft.Json.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\Ucsmy.Framework.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\LitJson.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\GeneralDAO.pdb
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\bin\Debug\GeneralModel.pdb
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\obj\Debug\GeneralService.csprojResolveAssemblyReference.cache
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\obj\Debug\GeneralService.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralService\obj\Debug\GeneralService.pdb

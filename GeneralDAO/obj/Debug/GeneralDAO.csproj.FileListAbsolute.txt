@@ -16,3 +16,12 @@ C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralDAO\bin\Debug\GeneralModel.pdb
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralDAO\obj\Debug\GeneralDAO.csprojResolveAssemblyReference.cache
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralDAO\obj\Debug\GeneralDAO.dll
 C:\Users\rui_pc\Documents\GitHub\DBTools\GeneralDAO\obj\Debug\GeneralDAO.pdb
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\bin\Debug\GeneralDAO.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\bin\Debug\GeneralDAO.pdb
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\bin\Debug\GeneralModel.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\bin\Debug\Ucsmy.Framework.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\bin\Debug\LitJson.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\bin\Debug\GeneralModel.pdb
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\obj\Debug\GeneralDAO.csprojResolveAssemblyReference.cache
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\obj\Debug\GeneralDAO.dll
+C:\Users\rui\Documents\GitHub\DBTools2\GeneralDAO\obj\Debug\GeneralDAO.pdb
