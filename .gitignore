@@ -1,4 +1,5 @@
-
+/bin/
+/Obj/
 *.cache
 *.cache
 *.cache
