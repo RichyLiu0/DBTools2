@@ -14,7 +14,7 @@ namespace GeneralDAO
     public class TableDAO
     {
 
-        public List<DBTableInfo> GetTableList(string Server,string DB)
+        public List<DBTableInfo> GetTableList(string Server, string DB)
         {
             List<DBTableInfo> list = new List<DBTableInfo>();
             string sql = @"  WITH  t AS ( SELECT   t.name AS TableName ,
@@ -27,7 +27,7 @@ namespace GeneralDAO
                                      )
                             SELECT  *
                             FROM    t  order by TableName asc ";
-            var dt = new DbContext(Server,DB).Query(sql);
+            var dt = new DbContext(Server, DB).Query(sql);
             if (dt != null && dt.Rows != null)
             {
                 foreach (DataRow row in dt.Rows)
@@ -57,9 +57,18 @@ namespace GeneralDAO
         public string GetRemarkSql(DBTableInfo tb)
         {
             var sb = new StringBuilder();
-            if (tb.TableDisplayName.IsNullOrEmpty()==false)
+            if (tb.TableDisplayName.IsNullOrEmpty() == false)
             {
-                sb.AppendFormat("EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';", tb.TableName);
+                sb.AppendFormat(@"
+                 IF(EXISTS(	SELECT a.*  FROM sys.tables AS a 
+	            INNER JOIN sys.extended_properties AS b ON a.object_id=b.major_id AND b.minor_id = 0
+	            WHERE  ISNULL(b.class_desc, 'OBJECT_OR_COLUMN') = 'OBJECT_OR_COLUMN'  
+	            AND ISNULL(b.name, 'MS_Description') = 'MS_Description'
+                AND  a.name='{0}'))
+                BEGIN 
+                EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';
+                End
+                ", tb.TableName);
                 sb.Append(Environment.NewLine + "GO" + Environment.NewLine);
 
                 sb.AppendFormat("EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'{1}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';", tb.TableName, tb.TableDisplayName);
@@ -117,10 +126,19 @@ WHERE   b.name ='{0}'", Table);
         }
 
 
-        public bool SaveTableRemark(string Server,string db, string tb, string remark)
+        public bool SaveTableRemark(string Server, string db, string tb, string remark)
         {
 
-            string strSql = "EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';".FormatWith(tb);
+            string strSql = @"
+              IF(EXISTS(	SELECT a.*  FROM sys.tables AS a 
+	        INNER JOIN sys.extended_properties AS b ON a.object_id=b.major_id AND b.minor_id = 0
+	        WHERE  ISNULL(b.class_desc, 'OBJECT_OR_COLUMN') = 'OBJECT_OR_COLUMN'  
+	        AND ISNULL(b.name, 'MS_Description') = 'MS_Description'
+            AND  a.name='{0}'))
+           BEGIN 
+            EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';
+            End
+".FormatWith(tb);
 
             strSql += "EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'{1}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}';".FormatWith(tb, remark);
             DbContext dbContext = new DbContext(Server, db);
@@ -131,16 +149,36 @@ WHERE   b.name ='{0}'", Table);
         public bool SaveColRemark(string Server, string db, string tb, string col, string remark)
         {
 
-            string strSql = "EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}', @level2type=N'COLUMN',@level2name=N'{1}';".FormatWith(tb, col, remark);
+            string strSql = @"
+
+  IF(EXISTS(
+  SELECT   a.name AS TableName ,
+                        b.name AS ColumnName ,
+                        b.is_nullable AS IsNullable ,
+                        ISNULL(c.value, '') AS DesText 
+                       
+               FROM     sys.tables a
+                        INNER JOIN sys.columns b ON a.object_id = b.object_id
+                        INNER JOIN sys.extended_properties c ON a.object_id = c.major_id
+                                                              AND c.minor_id = b.column_id
+                        
+               WHERE    ISNULL(c.class_desc, 'OBJECT_OR_COLUMN') = 'OBJECT_OR_COLUMN'
+                        AND ISNULL(c.name, 'MS_Description') = 'MS_Description'
+                 AND a.name='{0}'  AND b.name='{1}'      
+  ))
+Begin
+EXEC sys.sp_dropextendedproperty @name=N'MS_Description',  @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}', @level2type=N'COLUMN',@level2name=N'{1}';
+End
+".FormatWith(tb, col);
 
             strSql += "EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'{2}' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'{0}', @level2type=N'COLUMN',@level2name=N'{1}';".FormatWith(tb, col, remark);
-            DbContext dbContext = new DbContext(Server,db);
+            DbContext dbContext = new DbContext(Server, db);
             dbContext.ExecuteNonQuery(strSql);
             return true;
         }
 
         #region 私有方法
-        private void FillTableName(DBTableInfo TableInfo, string Server,string DB, string Table)
+        private void FillTableName(DBTableInfo TableInfo, string Server, string DB, string Table)
         {
             string sql = @"  WITH  t AS ( SELECT   t.name AS TableName ,
                                                 e.value AS DesText
@@ -189,7 +227,7 @@ WHERE   b.name ='{0}'", Table);
                                     AND ISNULL(e.name, 'MS_Description') = 'MS_Description'
 		                            )
 		                            SELECT * FROM t WHERE t.TableName='{0}'  ".FormatWith(Table);
-            var dt = new DbContext(Server,DB).Query(sql);
+            var dt = new DbContext(Server, DB).Query(sql);
             foreach (DataRow row in dt.Rows)
             {
                 var col = new DBColInfo();
