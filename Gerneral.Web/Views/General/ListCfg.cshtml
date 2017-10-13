@@ -91,7 +91,6 @@
         }
 
         function ShowGenderalWindow() {
-
             layer.open({
                 type: 1,
                 //skin: 'layui-layer-lan',
@@ -104,11 +103,6 @@
                 end: null
             });
         }
-
-
-     
-
-
     </script>
 </head>
 @{
@@ -162,8 +156,6 @@
                     <td class="title">显示名称：</td>
                     <td>
                         <input type="text" id="txtDisplayName" runat="server" name="DisplayName" value="" />
-
-
                     </td>
                 </tr>
                 <tr>
@@ -171,7 +163,7 @@
                     <td colspan="4" style="text-align: right;">
                         <input type="button" value="获取字段信息" onclick="LoadColsInfo()" />
                         &nbsp; &nbsp;
-                        <input id="btnGeneral" type="button" value="代码生成" onclick="    LoadCfg()" /></td>
+                        <input id="btnGeneral" type="button" value="代码生成" onclick="LoadCfg()" /></td>
                 </tr>
             </table>
 
