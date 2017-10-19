@@ -205,12 +205,14 @@ End
             string sql = @"WITH t AS (
                             SELECT  t.name AS TableName ,
                                     c.name AS ColumnName ,
+									c.column_id AS ColumnId,
                                     c.is_nullable AS IsNullable ,
                                     ISNULL( e.value,'') AS DesText ,
                                     s.name AS ColumnType ,
                                     c2.length AS ColumnLength ,
                                     CAST(c2.xprec AS INT) AS ColumnLengthL ,
                                     CAST(c2.xscale AS INT) AS ColumnLengthR 
+									
                             FROM    sys.tables t
                                     inner JOIN sys.columns c ON t.object_id = c.object_id
                                     LEFT JOIN sys.extended_properties e ON t.object_id = e.major_id
@@ -226,7 +228,7 @@ End
                             WHERE   ISNULL(e.class_desc, 'OBJECT_OR_COLUMN') = 'OBJECT_OR_COLUMN'
                                     AND ISNULL(e.name, 'MS_Description') = 'MS_Description'
 		                            )
-		                            SELECT * FROM t WHERE t.TableName='{0}'  ".FormatWith(Table);
+		                            SELECT * FROM t WHERE t.TableName='{0}' ORDER BY t.ColumnId asc ".FormatWith(Table);
             var dt = new DbContext(Server, DB).Query(sql);
             foreach (DataRow row in dt.Rows)
             {
